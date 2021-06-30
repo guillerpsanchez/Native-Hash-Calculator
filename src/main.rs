@@ -9,6 +9,7 @@ use std::fs::File;
 use std::io;
 use std::rc::Rc;
 use hex;
+use nwg::HTextAlign::Center;
 
 fn gen_hash_sha256(path: String) -> String {
     let mut sha256 = Sha256::new();
@@ -40,16 +41,25 @@ fn main() {
     let hash_sha256 = gen_hash_sha256(args[1].to_string());
     let hash_blake3 = gen_hash_blake3(args[1].to_string());
     nwg::init().expect("Failed to init Native Windows GUI");
-    nwg::Font::set_global_family("Courier New").expect("Failed to set default font");
 
     let mut window = Default::default();
     let mut text_box_sha256 = Default::default();
     let mut hash_box_sha256 = Default::default();
     let mut text_box_blake3 = Default::default();
     let mut hash_box_blake3 = Default::default();
+    let mut font = nwg::Font::default();
+
+    nwg::Font::builder()
+        .size(16)
+        .family("Courier New")
+        .weight(1000)
+        .build(&mut font)
+        .unwrap();
+
+    nwg::Font::set_global_default(Option::from(font));
 
     nwg::Window::builder()
-        .size((750, 70))
+        .size((570, 70))
         .center(true)
         .title("Native-Hash-Calculator")
         .build(&mut window)
@@ -65,7 +75,8 @@ fn main() {
 
     nwg::TextInput::builder()
         .text(&*hash_sha256)
-        .size((650, 20))
+        .align(Center)
+        .size((460, 20))
         .position((95,10))
         .parent(&window)
         .build(&mut hash_box_sha256)
@@ -81,7 +92,8 @@ fn main() {
 
     nwg::TextInput::builder()
         .text(&*hash_blake3)
-        .size((650, 20))
+        .align(Center)
+        .size((460, 20))
         .position((95,40))
         .parent(&window)
         .build(&mut hash_box_blake3)
