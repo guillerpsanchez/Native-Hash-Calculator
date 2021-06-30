@@ -24,7 +24,7 @@ fn gen_hash(path: String) -> String {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let hash = gen_hash(args[0].to_string());
+    let hash = gen_hash(args[1].to_string());
 
     nwg::init().expect("Failed to init Native Windows GUI");
     nwg::Font::set_global_family("Segoe UI").expect("Failed to set default font");
