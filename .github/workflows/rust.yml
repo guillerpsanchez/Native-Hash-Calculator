@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: cargo build --verbose --release
+      run: cargo rustc --release --verbose -- -C link-args="src/resources.res"
       
     - name: Create Release
       id: create_release
